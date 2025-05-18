@@ -1,0 +1,287 @@
+/* frontend/src/assets/theme.css - Globális stíluslap és téma definíciók */
+
+/* :root pszeudo-osztály a globális CSS egyéni tulajdonságok (változók) definiálására.
+   Ezek a változók az egész alkalmazásban elérhetők lesznek, lehetővé téve a könnyű tematikázást és konzisztens stílust.
+   A Vue komponensek <style scoped> blokkjában ezek a globális változók használhatók a var() függvénnyel.
+   Ha egy komponens <style scoped> blokkjában definiálnál CSS változókat, azok csak arra a komponensre lennének érvényesek. */
+:root {
+    /* Betűtípus családok definiálása */
+    --font-family-primary: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif; /* Egy kerekdedebb, barátságosabb betűtípus készlet az általános szövegekhez */
+    --font-family-game: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif; /* Játékosabb betűtípus specifikus elemekhez (pl. számok), óvatosan használd az olvashatóság érdekében */
+
+    /* Alap színek a témahoz */
+    --color-bg: #f0f9ff;                      /* Világos égkék háttérszín az alkalmazásnak */
+    --color-card-bg: #ffffff;                 /* Kártyák, panelek háttérszíne (általában fehér) */
+    --color-card-shadow: rgba(0, 0, 0, 0.15); /* Kártyák alapértelmezett árnyékszíne */
+
+    /* Szövegszínek */
+    --color-text-primary: #333333;            /* Elsődleges szövegszín (általános szövegekhez) */
+    --color-text-question: #0077cc;          /* Élénk kék a kérdések szövegéhez */
+    --color-text-level: #ff6f00;             /* Meleg narancssárga a szintjelzéshez és címekhez */
+    --color-text-link: #007bff;              /* Linkek színe (pl. a LoginPage toggle gombhoz) */
+
+
+    /* Gombok színei */
+    --color-button-primary-bg: #4CAF50;       /* Elsődleges gombok (pl. Submit, Start) vidám zöld háttérszíne */
+    --color-button-primary-hover-bg: #45a049; /* Sötétebb zöld hover (egér fölé) állapothoz */
+    --color-button-secondary-bg: #008CBA;     /* Másodlagos gombok (pl. Play Again) kék háttérszíne */
+    --color-button-secondary-hover-bg: #007ba7;/* Sötétebb kék hover állapothoz */
+    --color-button-text: #ffffff;             /* Gombok szövegszíne (általában fehér) */
+
+    /* Input mezők színei */
+    --color-input-border: #a0d8ef;            /* Input mezők keretének lágy kék színe */
+    --color-input-focus-border: #0077cc;     /* Erősebb kék keretszín, amikor az input mező fókuszt kap */
+
+    /* Haladási sáv (Progress bar) színei */
+    --color-progress-bar-bg: #e0e0e0;         /* Haladási sáv hátterének színe (az üres rész) */
+    --color-progress-bar-fill: #ffc107;       /* Napsárga a haladási sáv kitöltéséhez */
+
+    /* Visszajelzések (Feedback messages) színei */
+    --color-feedback-success-bg: #d4edda;     /* Sikeres művelet visszajelzésének lágy zöld háttere */
+    --color-feedback-success-text: #155724;   /* Sikeres visszajelzés szövegszíne */
+    --color-feedback-error-bg: #f8d7da;       /* Hiba visszajelzésének lágy piros háttere */
+    --color-feedback-error-text: #721c24;     /* Hiba visszajelzés szövegszíne */
+    --color-feedback-info-bg: #e1f5fe;        /* Információs visszajelzés lágy kék háttere */
+    --color-feedback-info-text: #0c5460;      /* Információs visszajelzés szövegszíne */
+}
+
+/* A GameScreen.vue fő konténerének stílusai (feltételezve, hogy ez a .game-container a GameScreen gyökere) */
+.game-container {
+    display: flex; /* Flexbox elrendezés */
+    flex-direction: column; /* Gyerek elemek függőlegesen rendeződnek */
+    align-items: center; /* Vízszintes középre igazítás */
+    font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif; /* Lágyabb, kerekített betűtípus */
+    /* A var(--font-family-primary) használata itt is konzisztens lenne a :root definícióval */
+    position: relative; /* Pozícionálási kontextus az abszolút pozicionált belső elemekhez (pl. floating-feedback) */
+    padding: 20px; /* Belső margó */
+    background-color: #f0f9ff; /* Világos, vidám háttérszín (var(--color-bg) használata javasolt) */
+    border-radius: 20px; /* Lekerekítettebb konténer sarkok */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Finom árnyék */
+    min-width: 320px; /* Minimális szélesség reszponzivitáshoz */
+    min-height: 100vh; /* Teljes viewport magasságot elfoglalja */
+    box-sizing: border-box; /* Padding és border beleszámít a teljes méretbe */
+}
+
+/* Lebegő visszajelző üzenetek stílusa */
+.floating-feedback {
+    position: absolute; /* Abszolút pozicionálás a .game-container-hez képest */
+    top: 20px; /* Távolság a konténer tetejétől */
+    padding: 12px 20px; /* Belső margó */
+    border-radius: 25px; /* Erősen lekerekített, "pill" alak */
+    font-weight: bold; /* Félkövér szöveg */
+    font-size: 1.1em; /* Betűméret */
+    z-index: 1000; /* Magas z-index, hogy más elemek felett jelenjen meg */
+    opacity: 0; /* Kezdetben átlátszó (animációhoz) */
+    animation: fade-in-out-pop 2s ease-in-out forwards; /* Animáció alkalmazása (felbukkanás és eltűnés) */
+    white-space: nowrap; /* Megakadályozza a szöveg tördelését több sorba */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Árnyék */
+    border: 2px solid transparent; /* Átlátszó keret, amit a specifikus típusok felülírnak */
+}
+
+/* Lebegő visszajelzés animációja (felbukkanás, megjelenés, eltűnés) */
+@keyframes fade-in-out-pop {
+    0% { opacity: 0; transform: translateY(-30px) scale(0.8); } /* Kezdeti állapot: láthatatlan, fentebb, kicsinyítve */
+    15% { opacity: 1; transform: translateY(0) scale(1.05); } /* Beúszik és kicsit "túlnagyítódik" */
+    25% { opacity: 1; transform: translateY(0) scale(1); }    /* Visszaáll normál méretre */
+    75% { opacity: 1; transform: translateY(0) scale(1); }    /* Tartja a megjelenést */
+    85% { opacity: 1; transform: translateY(0) scale(1.05); } /* Kicsit "túlnagyítódik" eltűnés előtt */
+    100% { opacity: 0; transform: translateY(-30px) scale(0.8); } /* Eltűnik: átlátszó, feljebb, kicsinyítve */
+}
+
+/* Sikeres visszajelzés specifikus stílusa */
+.floating-feedback.success {
+    background-color: #d4edda; /* var(--color-feedback-success-bg) használata javasolt */
+    color: #155724;            /* var(--color-feedback-success-text) használata javasolt */
+    border-color: #155724;     /* Keret színe megegyezik a szövegszínnel */
+}
+
+/* Hiba visszajelzés specifikus stílusa */
+.floating-feedback.error {
+    background-color: #f8d7da; /* var(--color-feedback-error-bg) használata javasolt */
+    color: #721c24;            /* var(--color-feedback-error-text) használata javasolt */
+    border-color: #721c24;
+}
+
+/* Információs visszajelzés specifikus stílusa */
+.floating-feedback.info {
+    background-color: #e1f5fe; /* var(--color-feedback-info-bg) használata javasolt */
+    color: #0c5460;            /* var(--color-feedback-info-text) használata javasolt */
+    border-color: #0c5460;
+}
+
+/* Kérdés kártya stílusai (a fő játékelemeket tartalmazó doboz) */
+.question-card {
+    display: flex; /* Flexbox elrendezés */
+    flex-direction: column; /* Gyerek elemek függőlegesen */
+    align-items: center; /* Vízszintes középre igazítás */
+    justify-content: space-around; /* Egyenletesen osztja el a helyet a gyerek elemek között függőlegesen */
+    background-color: #ffffff; /* var(--color-card-bg) használata javasolt */
+    border-radius: 25px; /* Erősen lekerekített sarkok */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 0 0 5px rgba(255,255,255,0.3); /* Lágyabb árnyék + finom belső "fény" hatás */
+    padding: 30px 35px; /* Belső margó */
+    margin-top: 80px; /* Térköz felette, hogy a lebegő visszajelzés elférjen */
+    width: 500px; /* Fix szélesség */
+    max-width: 95%; /* Maximális szélesség (reszponzivitás kisebb képernyőkön) */
+    box-sizing: border-box;
+    min-height: 450px; /* Minimális magasság, hogy a tartalom elférjen */
+    border: 3px solid #0077cc; /* Játékos keret (var(--color-text-question) használata javasolt) */
+}
+
+/* Címsor (H1 - szint kijelzése) stílusa */
+h1 {
+    color: #ff6f00; /* Meleg narancssárga (var(--color-text-level) használata javasolt) */
+    margin-bottom: 10px; /* Térköz alatta */
+    font-size: 2.8em; /* Betűméret */
+    font-weight: bold; /* Félkövér */
+    text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1); /* Vicces szövegárnyék */
+}
+
+/* Kérdés szövegének stílusa (a .question-card első <p> eleme) */
+.question-card > p:first-of-type {
+    font-size: 2.5em; /* Nagyobb betűméret a kérdésnek */
+    font-weight: bold; /* Félkövér */
+    color: #0077cc; /* Élénk kék (var(--color-text-question) használata javasolt) */
+    margin-bottom: 20px; /* Térköz alatta */
+    text-align: center; /* Középre igazított szöveg */
+}
+
+/* Egyéb információs szövegek a kártyán (Pontszám, Idő) */
+.question-card > p { /* Ez minden <p>-re vonatkozik a .question-card-on belül, felülírja a specifikusabbat, ha később jön, vagy ha az nem :first-of-type */
+    font-size: 1.3em; /* Betűméret */
+    color: #555; /* Szürke szövegszín (var(--color-text-primary) használata javasolt) */
+    margin: 5px 0; /* Kis függőleges térköz */
+}
+
+/* Szám beviteli mező stílusa */
+input[type="number"] {
+    margin: 20px 0; /* Függőleges térköz */
+    padding: 15px 20px; /* Belső margó */
+    font-size: 2em; /* Nagyobb betűméret az inputban */
+    width: 150px; /* Fix szélesség */
+    text-align: center; /* Szöveg középre igazítása */
+    border: 3px solid #a0d8ef; /* Lágyabb kék keret (var(--color-input-border) használata javasolt) */
+    border-radius: 15px; /* Lekerekített sarkok */
+    box-sizing: border-box;
+    color: #333; /* Szövegszín (var(--color-text-primary) használata javasolt) */
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif; /* Játékosabb betűtípus a számokhoz (var(--font-family-game) használata javasolt) */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Átmenet fókuszhoz */
+}
+
+/* Szám beviteli mező fókusz állapotának stílusa */
+input[type="number"]:focus {
+    border-color: #0077cc; /* Erősebb kék keret fókuszban (var(--color-input-focus-border) használata javasolt) */
+    box-shadow: 0 0 10px rgba(0, 119, 204, 0.3); /* Árnyék fókuszban */
+    outline: none; /* Alapértelmezett böngésző outline eltávolítása */
+}
+
+/* A szám beviteli mező léptető gombjainak (spinner) elrejtése Webkit/Blink böngészőkben (Chrome, Edge, Opera) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Eltávolítja a böngésző alapértelmezett stílusát */
+    margin: 0; /* Eltávolítja az esetleges margót */
+}
+/* A szám beviteli mező léptető gombjainak elrejtése Firefoxban */
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox specifikus tulajdonság */
+}
+
+/* Gombok általános stílusai */
+button {
+    padding: 15px 30px; /* Nagyobb belső margó a gomboknak */
+    font-size: 1.5em;   /* Nagyobb betűméret */
+    font-weight: bold; /* Félkövér */
+    cursor: pointer; /* Kattintható kurzor */
+    color: #ffffff; /* Szövegszín (var(--color-button-text) használata javasolt) */
+    border: none; /* Nincs keret */
+    border-radius: 30px; /* Erősen lekerekített, "pill" alakú gombok */
+    transition: background-color 0.3s ease, transform 0.15s ease; /* Átmenetek */
+    margin-top: 15px; /* Térköz felette */
+    text-transform: uppercase; /* Nagybetűs szöveg */
+    letter-spacing: 1px; /* Betűköz */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* Árnyék */
+}
+
+/* Gombok hover (egér fölé) állapotának stílusa, kivéve ha le van tiltva */
+button:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.02); /* Enyhe kiemelkedés és növekedés */
+    box-shadow: 0 6px 10px rgba(0,0,0,0.25); /* Erősebb árnyék */
+}
+/* Gombok active (kattintás) állapotának stílusa, kivéve ha le van tiltva */
+button:active:not(:disabled) {
+    transform: translateY(1px) scale(0.98); /* Benyomódás effektus */
+    box-shadow: 0 2px 3px rgba(0,0,0,0.2); /* Kisebb árnyék */
+}
+
+/* Letiltott gombok stílusa */
+button:disabled {
+    background-color: #cccccc; /* Szürke háttér */
+    cursor: not-allowed; /* Nem megengedett kurzor */
+    opacity: 0.7; /* Enyhe áttetszőség */
+    box-shadow: none; /* Nincs árnyék */
+}
+
+/* "Submit Answer" gomb specifikus stílusa (a .question-card-on belül, de nem a .game-over-message-ben lévő gomb) */
+.question-card button:not(.game-over-message button) {
+    background-color: #4CAF50; /* Vidám zöld (var(--color-button-primary-bg) használata javasolt) */
+}
+.question-card button:not(.game-over-message button):hover:not(:disabled) {
+    background-color: #45a049; /* Sötétebb zöld hover esetén (var(--color-button-primary-hover-bg) használata javasolt) */
+}
+
+/* Haladási sáv konténerének stílusa */
+.progress-bar-container {
+    background-color: #e0e0e0; /* Háttérszín (var(--color-progress-bar-bg) használata javasolt) */
+    border-radius: 15px; /* Lekerekített sarkok */
+    height: 20px; /* Vastagabb sáv */
+    width: 90%; /* Szélesség a szülőhöz képest */
+    margin: 25px 0; /* Függőleges térköz */
+    overflow: hidden; /* A belső .progress-bar ne lógjon ki a border-radius miatt */
+    border: 2px solid #ccc; /* Keret */
+}
+
+/* Haladási sáv kitöltésének stílusa */
+.progress-bar {
+    background-color: #ffc107; /* Napsárga kitöltés (var(--color-progress-bar-fill) használata javasolt) */
+    /* Vicces csíkos effektus a háttérképpel */
+    background-image: linear-gradient(
+            45deg,
+            rgba(255, 255, 255, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent
+    );
+    background-size: 30px 30px; /* A csíkos minta mérete */
+    height: 100%; /* Teljes magasságot kitölti a konténeren belül */
+    border-radius: 13px; /* Lekerekített sarkok a kitöltésnek, kicsit kisebb, mint a konténeré */
+    transition: width 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* "Pattogós" átmenet a szélesség változásakor */
+    animation: progress-bar-stripes 1s linear infinite; /* Végtelenített csíkos animáció */
+}
+
+/* Haladási sáv csíkjainak animációja */
+@keyframes progress-bar-stripes {
+    from { background-position: 0 0; } /* Kezdőpozíció */
+    to { background-position: 30px 0; } /* Végpozíció (a background-size szélességével egyezik meg a folyamatos hatásért) */
+}
+
+/* Játék vége üzenet stílusai */
+.game-over-message {
+    margin-top: 20px; /* Térköz felette */
+    text-align: center; /* Szöveg középre igazítása */
+}
+.game-over-message p {
+    font-size: 1.8em; /* Nagyobb betűméret */
+    font-weight: bold; /* Félkövér */
+    color: #d32f2f; /* Erősebb piros a játék vége üzenethez */
+    margin-bottom: 20px; /* Térköz alatta */
+    text-shadow: 1px 1px 0px #fff; /* Szövegárnyék */
+}
+/* "Play Again" gomb stílusa a játék vége üzenetben */
+.game-over-message button {
+    background-color: #008CBA; /* Kék (var(--color-button-secondary-bg) használata javasolt) */
+}
+.game-over-message button:hover:not(:disabled) {
+    background-color: #007ba7; /* Sötétebb kék hover esetén (var(--color-button-secondary-hover-bg) használata javasolt) */
+}
