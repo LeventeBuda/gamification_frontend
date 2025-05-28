@@ -1,4 +1,3 @@
-// frontend/src/stores/authStore.js
 
 // A Pinia store definiálásához szükséges 'defineStore' funkció importálása
 import { defineStore } from 'pinia';

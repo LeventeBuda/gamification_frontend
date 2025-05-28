@@ -1,4 +1,4 @@
-// frontend/src/router/index.js
+
 
 // Vue Router szükséges funkcióinak importálása
 import { createRouter, createWebHistory } from 'vue-router';
